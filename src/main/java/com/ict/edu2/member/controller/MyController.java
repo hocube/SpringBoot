@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/member")
-@Slf4j
 public class MyController {
     @Autowired
     private MemberDAO memberDAO;
@@ -52,7 +51,6 @@ public class MyController {
         }else{
             // 입력 받은 아이디를 이용해서 DB 패스워드를 구하자
             MemberVO mvo = memberDAO.getMemberOne(vo.getM_id());
-            
             // 가지고 온 패스워드와 입력된 패스워드가 같은지 판별하자
             if(! passwordEncoder.matches(vo.getM_pw(), mvo.getM_pw())){
                 dataVO.setSuccess(false);
@@ -63,6 +61,8 @@ public class MyController {
                 // 로그인 정보 저장(세션)
                 session.setAttribute("mvo", mvo);
                 dataVO.setSuccess(true);
+                // 프론트엔드에서 사용하기 위해 저장
+                dataVO.setData(mvo);
                 dataVO.setMessage("로그인 성공");
                 resMap.put("data", dataVO);
                 return resMap;
@@ -73,6 +73,7 @@ public class MyController {
     @PostMapping("/join")
     @ResponseBody
      public Map<String, Object> join(MemberVO vo) {
+         // 모델앤뷰 사용하지 못할 때 이렇게 한다.
          Map<String, Object> resMap = new HashMap<>();
          DataVO dataVO = new DataVO();
 

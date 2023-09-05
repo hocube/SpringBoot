@@ -32,9 +32,4 @@ public class MemberDAO {
         int result = ss.insert("members.insert", vo);
         return result;
     }
-
-
-    
-
-
 }

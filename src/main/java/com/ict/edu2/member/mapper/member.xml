@@ -17,7 +17,16 @@
     </select>
 
     <insert id="insert" parameterType="com.ict.edu2.member.vo.MemberVO">
-      insert into members (m_id, m_pw, m_name, m_age, m_reg)
-      values(#{m_id}, #{m_pw}, #{m_name}, #{m_age}, #{m_reg})
+      insert into members (m_id, m_pw, m_name,
+      <!-- null이 아니거나 비어있지 않을 때 실행하라 -->
+      <if test="m_age != null and m_age != ''">
+        m_age, 
+      </if>
+        m_reg)
+      values(#{m_id}, #{m_pw}, #{m_name}, 
+      <if test="m_age != null and m_age != ''">
+        #{m_age},
+      </if>
+      sysdate())
     </insert>
 </mapper>
